@@ -1,0 +1,22 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "com.makeupar/creators",
+  "title": "YouCam for Creators",
+  "description": "Provides YouCam API for AI image and video editing and generation.",
+  "version": "1.0.1",
+  "websiteUrl": "https://yce.perfectcorp.com/ai-api",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp-api-01.makeupar.com/mcp/creators",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Include your API key in the request header using Bearer Token.",
+          "isRequired": true,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}
