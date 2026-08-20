@@ -1,4 +1,6 @@
 {
+  "author": "Perfect Corp",
+  "authorUrl": "https://github.com/YouCam-API",
   "cloudEndpoint": "https://mcp-api-01.makeupar.com/mcp/creators",
   "description": "Provides YouCam API for AI image and video editing and generation.",
   "homepage": "https://yce.perfectcorp.com/ai-api",
