@@ -2199,7 +2199,7 @@
     {
       "name": "AI-Headshot-Generator",
       "title": "Ai Headshot Generator",
-      "description": "Transform your photos into stunning professional deadshots with our AI Headshot Generator. Elevate your headshots quickly and effectively using our powerful AI tools designed to deliver professional-quality results.\n* Variety of Styles: From polished LinkedIn headshots and professional business headshots to creative model headshots, our AI headshot generator helps you select the perfect look to suit your needs.\n* Professional Results: Leveraging AI to ensure your headshots look natural and flattering, making a strong impression on potential employers and clients.\n* Convenience: Generate multiple AI headshots anytime, anywhere, without the need for a photographer. Perfect for busy professionals.\nFor more AI Headshot styles, please refer to \nUse cases:\nSuggestions for How to Shoot:",
+      "description": "Transform your photos into stunning professional headshots with our AI Headshot Generator. Elevate your headshots quickly and effectively using our powerful AI tools designed to deliver professional-quality results.\n* Variety of Styles: From polished LinkedIn headshots and professional business headshots to creative model headshots, our AI headshot generator helps you select the perfect look to suit your needs.\n* Professional Results: Leveraging AI to ensure your headshots look natural and flattering, making a strong impression on potential employers and clients.\n* Convenience: Generate multiple AI headshots anytime, anywhere, without the need for a photographer. Perfect for busy professionals.\nFor more AI Headshot styles, please refer to \nUse cases:\nSuggestions for How to Shoot:",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -4507,8 +4507,115 @@
       }
     },
     {
+      "name": "AI-Watermark-Removal",
+      "title": "Ai Watermark Removal",
+      "description": "AI-Powered Watermark Removal\nReliably detect and erase watermarks, logos, and other marks while preserving the image's original quality and details.\n    > Use the tool responsibly to avoid unethical applications, such as removing watermarks for unauthorized commercial use. Respect the intended purpose of the image and adhere to fair use principles.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "request": {
+            "anyOf": [
+              {
+                "properties": {
+                  "src_file_url": {
+                    "description": "Url of the file to run task. The url should be publicly accessible.",
+                    "examples": [
+                      "https://example.com/selfie.jpg"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "src_file_url"
+                ],
+                "type": "object"
+              },
+              {
+                "properties": {
+                  "src_file_id": {
+                    "description": "ID of file to run task. File ID from upload file API.",
+                    "examples": [
+                      "pfNK5PuRe0MrwLHcGA3DOmB1ahwfXTbYHjv+KoBIxbE="
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "src_file_id"
+                ],
+                "type": "object"
+              }
+            ]
+          },
+          "polling": {
+            "default": true,
+            "description": "If true (default), keep polling until the task finishes, returning the final result. If false, return immediately without waiting for the task to finish.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "request"
+        ],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "properties": {
+                  "error_message": {
+                    "description": "Detailed description of error",
+                    "type": "string"
+                  },
+                  "request_id": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "error_message"
+                ],
+                "type": "object"
+              }
+            ]
+          }
+        },
+        "required": [
+          "result"
+        ],
+        "x-fastmcp-wrap-result": true
+      },
+      "annotations": {
+        "readOnlyHint": false,
+        "destructiveHint": false,
+        "idempotentHint": false,
+        "openWorldHint": true
+      },
+      "_meta": {
+        "fastmcp": {
+          "versions": [
+            "v2.0"
+          ],
+          "tags": [],
+          "version": "v2.0"
+        }
+      }
+    },
+    {
       "name": "upload_file",
-      "description": "Upload base64-encoded media files to the YouCam API and return file_id(s).",
+      "description": "Upload base64-encoded media files to the YouCam API and return file_id(s).\n\nIf task_type is omitted, files are uploaded via the generic file API\n(POST /s2s/v2.0/file) rather than a task-specific upload path.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -4520,7 +4627,14 @@
             "type": "array"
           },
           "task_type": {
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "required": [
@@ -4630,7 +4744,8 @@
                   "AI-Image-Generator-Text-to-Image",
                   "AI-Video-Generator-Text-to-Video",
                   "AI-Video-Enhancer",
-                  "AI-Video-Style-Transfer"
+                  "AI-Video-Style-Transfer",
+                  "AI-Watermark-Removal"
                 ],
                 "type": "string"
               },
@@ -4734,7 +4849,8 @@
               "AI-Image-Generator-Text-to-Image",
               "AI-Video-Generator-Text-to-Video",
               "AI-Video-Enhancer",
-              "AI-Video-Style-Transfer"
+              "AI-Video-Style-Transfer",
+              "AI-Watermark-Removal"
             ],
             "type": "string"
           },
@@ -4879,7 +4995,8 @@
               "AI-Image-Generator-Text-to-Image",
               "AI-Video-Generator-Text-to-Video",
               "AI-Video-Enhancer",
-              "AI-Video-Style-Transfer"
+              "AI-Video-Style-Transfer",
+              "AI-Watermark-Removal"
             ],
             "type": "string"
           }
@@ -4977,6 +5094,171 @@
                 "default": null,
                 "examples": [
                   "MjA"
+                ]
+              }
+            },
+            "type": "object"
+          }
+        },
+        "required": [
+          "request"
+        ],
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "properties": {
+                  "error_message": {
+                    "description": "Detailed description of error",
+                    "type": "string"
+                  },
+                  "request_id": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "error_message"
+                ],
+                "type": "object"
+              }
+            ]
+          }
+        },
+        "required": [
+          "result"
+        ],
+        "x-fastmcp-wrap-result": true
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "_meta": {
+        "fastmcp": {
+          "versions": [
+            "v2.0"
+          ],
+          "tags": [],
+          "version": "v2.0"
+        }
+      }
+    },
+    {
+      "name": "Get-Unit-Info",
+      "title": "Get Unit Info",
+      "description": "Get the current unit balance for this account, including each unit's type, amount, and expiry.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "properties": {
+                  "error_message": {
+                    "description": "Detailed description of error",
+                    "type": "string"
+                  },
+                  "request_id": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "error_message"
+                ],
+                "type": "object"
+              }
+            ]
+          }
+        },
+        "required": [
+          "result"
+        ],
+        "x-fastmcp-wrap-result": true
+      },
+      "annotations": {
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      },
+      "_meta": {
+        "fastmcp": {
+          "versions": [
+            "v2.0"
+          ],
+          "tags": [],
+          "version": "v2.0"
+        }
+      }
+    },
+    {
+      "name": "Get-Unit-History",
+      "title": "Get Unit History",
+      "description": "View the unit usage history for this account, such as units consumed or granted per task/order.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "request": {
+            "properties": {
+              "page_size": {
+                "anyOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "examples": [
+                  20
+                ]
+              },
+              "starting_token": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "default": null,
+                "examples": [
+                  "73a3c9e69b89"
                 ]
               }
             },
